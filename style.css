@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .wrapper,
+  .content {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  .content {
+    overflow-x: hidden;
+  }
+  
+  .content .section {
+    width: 100%;
+    height: 100vh;
+  }
+  
+  .content .section.hero {
+    background-image: url(escola1.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .image-container {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    perspective: 500px;
+    overflow: hidden;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+  /* Adicionar ao seu style.css */
+
+/* O Overlay que cobrirá a tela */
+/* Adicionar no final do seu arquivo style.css */
+
+/* NOVO CÓDIGO para style.css: Efeito de Linhas de Rapidez Aprimorado */
+
+.transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999; 
+    pointer-events: none; 
+    
+    /* Cor escura e forte de base */
+    background: #000; /* Preto sólido */
+    
+    /* Efeito de listras mais finas e densas para maior sensação de velocidade */
+    background-image: repeating-linear-gradient(
+        90deg, /* Listras verticais (em 90 graus) */
+        rgba(255, 255, 255, 0.15), /* Linhas brancas mais visíveis (0.15 de opacidade) */
+        rgba(255, 255, 255, 0.15) 1px, /* Linha de 1px */
+        transparent 1px, /* Começa o espaço transparente */
+        transparent 4px /* Termina o espaço transparente (menor espaçamento) */
+    );
+    
+    /* Posição Inicial e Otimização para Animação */
+    opacity: 1; 
+    transform: translateX(-100%); 
+    will-change: transform; 
+}
+/* Verifique no seu style.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}

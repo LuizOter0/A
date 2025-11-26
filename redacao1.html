@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Redação - Minimalista Futurista | Proposta 1</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700,800'>
+    
+    <style>
+        /* Estilos CSS Minimalista Futurista */
+        
+        /* Cores Base: Fundo Escuro Profundo, Destaque Neon */
+        :root {
+            --bg-deep: #111111; /* Preto mais profundo */
+            --text-light: #f5f5f5;
+            --text-muted: #aaaaaa;
+            --accent-neon: #00ff66; /* Verde Neon para Destaque */
+        }
+
+        /* RESET/Base */
+        *, *:before, *:after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-deep); 
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.65;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ----------------------------------------------------------------- */
+        /* Controles de Acessibilidade (Botões Fixo) */
+        /* ----------------------------------------------------------------- */
+        .controls-container {
+            position: fixed;
+            left: 50px; 
+            top: 50px; 
+            z-index: 1000;
+            display: flex;
+            gap: 15px; /* Espaçamento entre os botões */
+        }
+
+        .control-btn {
+            height: 45px; 
+            padding: 0 20px; 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent; 
+            border: 1px solid var(--accent-neon);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+            color: var(--accent-neon);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+        
+        /* Estilo para o ícone de volta (diferente do botão de voz) */
+        .nav-return-btn svg {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-neon);
+            margin-right: 10px; 
+        }
+
+        .control-btn:hover {
+            background: rgba(0, 255, 102, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Estilo para o botão de voz */
+        #read-button {
+             border-color: #ff9900; /* Laranja para diferenciar */
+             color: #ff9900;
+             box-shadow: 0 0 15px rgba(255, 153, 0, 0.2);
+        }
+        #read-button:hover {
+             background: rgba(255, 153, 0, 0.1);
+        }
+
+        /* ----------------------------------------------------------------- */
+        /* Conteúdo Principal (Central e Focado) */
+        /* ----------------------------------------------------------------- */
+        .main-content {
+            width: 800px;
+            padding: 150px 0 100px;
+        }
+
+        .redacao-header {
+            margin-bottom: 70px;
+            position: relative;
+        }
+
+        .redacao-tema {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-neon);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            display: inline-block;
+            border-bottom: 1px solid rgba(0, 255, 102, 0.5);
+            padding-bottom: 5px;
+        }
+
+        .redacao-titulo-draft {
+            font-size: 48px; 
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .redacao-header:after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: #252525;
+            margin-top: 30px;
+        }
+
+
+        .redacao-corpo {
+            padding-top: 20px;
+        }
+
+        .redacao-corpo p {
+            font-weight: 300;
+            font-size: 18px; 
+            margin-bottom: 35px; 
+            color: var(--text-muted);
+            text-align: justify;
+            text-indent: 0;
+        }
+        
+        .redacao-corpo p:first-child {
+            font-weight: 400;
+            color: var(--text-light);
+            text-indent: 0;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls-container">
+        
+        <a href="Projeto.html" class="control-btn nav-return-btn" id="return-button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="19 12 5 12"></polyline>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span class="nav-return-text">VOLTAR</span>
+        </a>
+
+        <button id="read-button" class="control-btn">
+             OUVIR REDAÇÃO
+        </button>
+    </div>
+    
+    <div class="main-content" id="content-to-read">
+        
+        <header class="redacao-header">
+            <div class="redacao-tema">Proposta #1</div>
+            <h1 class="redacao-titulo-draft">O Custo Estético da Perfeição Digital</h1>
+        </header>
+
+        <section class="redacao-corpo">
+            
+            <p>Em 2019, um ex-funcionário colaborador da Meta, empresa de tecnologia e desenvolvimento responsável por ícones como Instagram e Facebook, divulgou um artigo que evidenciou os problemas do conteúdo entregue a seus usuários, onde, propositadamente, oferecia conteúdos contendo "corpos perfeitos", assim como "vidas perfeitas", gerando intencionalmente uma maior fragilidade estética na sociedade, visto que tudo o que se consumia era distante do cotidiano brasileiro.</p>
+
+            <p>O filme "Feios", lançado em 2024, confirma, através do seu enredo, os conflitos gerados pela insegurança visual na sociedade, onde, através de meios não naturais, buscam sempre parecer mais perfeitos e iguais.</p>
+
+            <p>A obsessão de procurar estar cada vez mais "perfeitamente construído" se vê definida através do pensamento do filósofo Bourdieu, no qual enxerga a construção social como um impulsionador de como os seres humanos se comportam em sociedade, ligando-se diretamente a como as redes nos influenciam nos dias de hoje.</p>
+
+            <p>Para que essa lacuna na autoestima da sociedade brasileira seja consertada, é necessária a intensificação de meios de comunicação para incentivar a sua própria aceitação, onde as redes não se limitem a mostrar aquilo artificialmente criado.</p>
+        </section>
+
+    </div>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-widget"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    
+    <script>
+        document.getElementById('return-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = "Projeto.html";
+        });
+
+        // Funcionalidade de Voz
+        const readButton = document.getElementById('read-button');
+        const contentArea = document.getElementById('content-to-read');
+        let isReading = false;
+        let utterance = null;
+        const synth = window.speechSynthesis;
+
+        // Função principal de leitura
+        function toggleSpeech() {
+            if (isReading) {
+                // Parar a leitura
+                synth.cancel();
+                readButton.textContent = 'OUVIR REDAÇÃO';
+                readButton.classList.remove('active-reading');
+                isReading = false;
+            } else {
+                // Iniciar a leitura
+                
+                // Extrai todo o texto da área de conteúdo (incluindo o tema e parágrafos)
+                const fullText = contentArea.innerText;
+                
+                utterance = new SpeechSynthesisUtterance(fullText);
+                
+                // Define a voz para Português do Brasil (Pode variar entre navegadores)
+                // Tentativa de achar uma voz em português
+                const voices = synth.getVoices();
+                const ptBrVoice = voices.find(voice => voice.lang === 'pt-BR');
+                if (ptBrVoice) {
+                    utterance.voice = ptBrVoice;
+                } else {
+                    // Fallback para Português (se não encontrar a voz específica do Brasil)
+                    utterance.lang = 'pt-BR'; 
+                }
+
+                utterance.rate = 1.0; // Velocidade de leitura
+                
+                synth.speak(utterance);
+                readButton.textContent = 'PARAR LEITURA';
+                readButton.classList.add('active-reading');
+                isReading = true;
+
+                // Evento para resetar o botão quando a leitura terminar
+                utterance.onend = () => {
+                    readButton.textContent = 'OUVIR REDAÇÃO';
+                    readButton.classList.remove('active-reading');
+                    isReading = false;
+                };
+            }
+        }
+
+        readButton.addEventListener('click', toggleSpeech);
+
+        // Garante que as vozes estão carregadas ao clicar
+        if (synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = () => {
+                // O evento só precisa ser anexado ao botão, não há necessidade de re-anexar
+            };
+        }
+    </script>
+
+</body>
+</html>

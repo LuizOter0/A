@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Dias Redação - Projeto Final</title>
+<script type="module">
+import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
+import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
+import { gsap } from "https://cdn.skypack.dev/gsap";
+
+const camera = new THREE.PerspectiveCamera(
+    10,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+);
+camera.position.z = 13;
+
+const scene = new THREE.Scene();
+let bee;
+let mixer;
+const loader = new GLTFLoader();
+
+// Carregamento do Modelo 3D (Bee)
+loader.load(
+    "https://raw.githubusercontent.com/DennysDionigi/bee-glb/94253437c023643dd868592e11a0fd2c228cfe07/demon_bee_full_texture.glb",
+    function (gltf) {
+        bee = gltf.scene;
+        scene.add(bee);
+
+        mixer = new THREE.AnimationMixer(bee);
+        mixer.clipAction(gltf.animations[0]).play();
+        modelMove();
+    },
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+    function (error) {
+        console.error("Error loading model:", error);
+    }
+);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById("container3D").appendChild(renderer.domElement);
+
+// Iluminação
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.3);
+scene.add(ambientLight);
+
+const topLight = new THREE.DirectionalLight(0xffffff, 1);
+topLight.position.set(500, 500, 500);
+scene.add(topLight);
+
+const reRender3D = () => {
+    requestAnimationFrame(reRender3D);
+    renderer.render(scene, camera);
+    if (mixer) mixer.update(0.02);
+};
+reRender3D();
+
+let arrPositionModel = [
+    {
+        id: "banner",
+        position: { x: 0, y: -1, z: 0 },
+        rotation: { x: 0, y: 1.5, z: 0 }
+    },
+    {
+        id: "intro",
+        position: { x: 1, y: -1, z: -5 },
+        rotation: { x: 0.5, y: -0.5, z: 0.5 }
+    },
+    {
+        id: "description",
+        position: { x: -1, y: -1, z: -5 },
+        rotation: { x: 0, y: 0.5, z: 0.2 }
+    },
+    {
+        id: "contact",
+        position: { x: 0.45, y: -2, z: -10 },
+        rotation: { x: 0.2, y: -0.5, z: -0.2 }
+    }
+];
+
+const modelMove = () => {
+    const sections = document.querySelectorAll(".section");
+    let currentSection;
+    sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        // Detecta a seção que está mais próxima do topo (ajustado para 1/3 da tela)
+        if (rect.top <= window.innerHeight / 3) { 
+            currentSection = section.id;
+        }
+    });
+    let position_active = arrPositionModel.findIndex(
+        (val) => val.id == currentSection
+    );
+    if (position_active >= 0) {
+        let new_coordinates = arrPositionModel[position_active];
+        gsap.to(bee.position, {
+            x: new_coordinates.position.x,
+            y: new_coordinates.position.y,
+            z: new_coordinates.position.z,
+            duration: 3,
+            ease: "power1.out"
+        });
+        gsap.to(bee.rotation, {
+            x: new_coordinates.rotation.x,
+            y: new_coordinates.rotation.y,
+            z: new_coordinates.rotation.z,
+            duration: 3,
+            ease: "power1.out"
+        });
+    }
+};
+
+window.addEventListener("scroll", () => {
+    if (bee) {
+        modelMove();
+    }
+});
+
+window.addEventListener("resize", () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+});
+
+// ------------------------------------------
+// CÓDIGO PARA LINKS CLICÁVEIS NO HEADER
+// ------------------------------------------
+
+const navLinks = document.querySelectorAll('.nav-link');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        // Verifica se o link tem um data-target (para rolagem suave)
+        if (this.getAttribute('data-target')) {
+            e.preventDefault(); 
+            
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                // Rola suavemente até a seção
+                window.scrollTo({
+                    top: targetElement.offsetTop,
+                    behavior: 'smooth' 
+                });
+
+                // Força a atualização imediata do modelo 3D
+                let position_active = arrPositionModel.findIndex(
+                    (val) => val.id == targetId
+                );
+                
+                if (position_active >= 0) {
+                    let new_coordinates = arrPositionModel[position_active];
+                    
+                    // Anima a posição do modelo usando GSAP
+                    gsap.to(bee.position, {
+                        x: new_coordinates.position.x,
+                        y: new_coordinates.position.y,
+                        z: new_coordinates.position.z,
+                        duration: 1.5,
+                        ease: "power1.out"
+                    });
+                    gsap.to(bee.rotation, {
+                        x: new_coordinates.rotation.x,
+                        y: new_coordinates.rotation.y,
+                        z: new_coordinates.rotation.z,
+                        duration: 1.5,
+                        ease: "power1.out"
+                    });
+                }
+            }
+        }
+        // Se não tiver data-target, o link segue o href padrão (ex: Campo.html)
+    });
+});
+
+</script>
+</head>
+<body>
+    <header>
+    <div class="content-fit">
+        <a href="https://www.instagram.com/luizz_otr/">
+            <img src="https://amarapedrosa.webcindario.com/instagram.png" alt="">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#intro" class="nav-link" data-target="intro">Saiba mais</a></li>
+                <li><a href="#banner" class="nav-link" data-target="banner">Subir pagina</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+    <div class="section" id="banner">
+        <div class="content-fit">
+            <div class="title" data-before="100 DIAS">100 DIAS REDAÇÃO</div>
+        </div>
+        <img src="https://assets.codepen.io/453571/flower.png" class="decorate" alt="" style="width: 50vw; bottom: 0; right: 0;">
+        <img src="https://assets.codepen.io/453571/leaf.png" class="decorate" alt="" style="width: 30vw; bottom: 0; left: 0;">
+    </div>
+    <div class="section" id="intro">
+        <div class="content-fit">
+            <div class="number">01</div>
+            <div class="des">
+                <div class="title">Oque consiste o projeto?</div>
+                <p>O projeto surgiu como um metodo de avaliação na materia de Lingua porguesa, em que durante 100 dias, seriam realizadas redações semanalmente. Porem, apos o decorrer do ano, foi proposto a ideia da união da avaliação final de Programação, com a 14 redações realizadas.
+                    portanto, foi sugerido um site que comportasse todas as redações e que fosse feito a partir de HTML, CSS e JS
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="section" id="description">
+        <div class="content-fit">
+            <div class="number">02</div>
+            <div class="des">
+                <div class="title">Para que serve o projeto?</div>
+                <p>O projeto muito alem de servir como avaliação final da materia de porguês, é um grande teste de capacidade, que alem de desenvolver a habilidade de escrita e desenvolvimento (com as redações), tambem é um teste de logica, em que cobra um bom raciocionio logico e soluções de problemas.</p>
+            </div>
+        </div>
+        <img src="https://assets.codepen.io/453571/leaf1.png" class="decorate" alt="" style="width: 70vw; bottom: 0; right: 0;">
+    </div>
+    <div class="section" id="contact">
+        <div class="content-fit">
+            <div class="number">03</div>
+            <div class="des">
+                <div class="title">Professores</div>
+                <table>
+                    <tr>
+                        <td>Português</td>
+                        <td>Simone</td>
+                    </tr>
+                    <tr>
+                        <td>Programação</td>
+                        <td>Rafael Biano</td>
+                    </tr>
+                    <tr>
+                        <td>Website (aluno)</td>
+                        <td>Luiz Otero</td>
+                    </tr>
+                    <tr>
+                        <td>Turma</td>
+                        <td>3°F</td>
+                    </tr>
+                </table>
+                <a href="Campo.html" class="sign-button">REDAÇÕES</a>
+            </div>
+        </div>
+    </div>
+    <div id="container3D"></div>
+
+    <style>
+        @import url("https://fonts.cdnfonts.com/css/devil-breeze");
+        @import url("https://fonts.cdnfonts.com/css/poppins");
+        @import url("https://fonts.cdnfonts.com/css/bimbo");
+
+        body {
+            margin: 0;
+            font-family: "Montserrat", sans-serif;
+            background-color: #1b1b1b;
+            color: #eef8ce;
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+            background-image: url(https://assets.codepen.io/453571/bg.avif),
+                repeating-linear-gradient(
+                    to right,
+                    transparent 0 500px,
+                    #73814b33 500px 501px
+                );
+            background-size: 100%;
+        }
+        *::-webkit-scrollbar {
+            width: 0;
+        }
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            box-sizing: border-box;
+        }
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content-fit {
+            width: min(1200px, 90vw);
+            margin: auto;
+            min-height: 100vh;
+            position: relative;
+            padding-block: 10em;
+        }
+        header {
+            padding-block: 1em;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10px;
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            background-color: #1b1b1b11;
+            background-image: repeating-linear-gradient(
+                to right,
+                transparent 0 500px,
+                #eee1 500px 501px
+            );
+        }
+        header .content-fit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: unset !important;
+            padding-block: unset !important;
+        }
+        header .content-fit nav ul {
+            display: flex;
+            gap: 2em;
+        }
+
+        /* Novo Estilo para os Links do Header */
+        header .content-fit nav ul li a {
+            color: #eef8ce; 
+            text-decoration: none; 
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        header .content-fit nav ul li a:hover {
+            color: #d1ff48; 
+        }
+
+        #banner .title {
+            color: #d1ff48;
+            font-size: 11em;
+            font-family: "devil breeze";
+            font-weight: bold;
+            position: relative;
+            overflow: visible;
+            text-align: center;
+        }
+        #banner .title::before {
+            content: attr(data-before);
+            position: absolute;
+            z-index: -1;
+            color: oklch(0.78 0.17 80.01 / 0.19);
+            mask: linear-gradient(
+                to bottom,
+                #000 -80%,
+                oklch(0 0 0/0),
+                #000,
+                oklch(0 0 0/0) 200%
+            );
+            transform: scaleY(-1) translateY(-0.44lh);
+        }
+        .section .decorate {
+            position: fixed;
+            z-index: -100;
+            pointer-events: none;
+        }
+        #intro .content-fit {
+            display: flex;
+            gap: 30%;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section .number {
+            font-family: "devil breeze";
+            font-size: 15em;
+            font-weight: bold;
+        }
+        .section .content-fit .title {
+            font-family: "devil breeze";
+            font-size: 5em;
+            font-weight: bold;
+        }
+        #description .content-fit {
+            padding-right: 30%;
+        }
+        #description .number {
+            font-size: 5em;
+        }
+        #description .title {
+            font-size: 7em;
+            font-weight: 500;
+        }
+        #contact .content-fit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        #contact table {
+            width: min(800px, 90vw);
+            padding-top: 2em;
+            font-size: 2em;
+            margin: auto;
+        }
+        #contact table td {
+            padding-block: 0.5em;
+            border-bottom: 1px dashed #445022;
+        }
+        #contact table td:nth-child(1) {
+            text-align: left;
+            font-weight: 500;
+        }
+        #contact table td:nth-child(2) {
+            text-align: right;
+            font-weight: 200;
+        }
+        
+        /* ESTILO NOVO DO BOTÃO MORELLI */
+        #contact .sign-button {
+            font-size: 10em;
+            display: inline-block; 
+            color: #eef8ce; /* Cor inicial */
+            text-decoration: none; 
+            cursor: pointer;
+            transition: color 0.3s ease-in-out; /* Efeito de transição */
+            font-family: "devil breeze";
+            font-weight: bold;
+        }
+
+        #contact .sign-button:hover {
+            color: #03ff00; /* Cor verde ao passar o mouse */
+        }
+        /* FIM DO ESTILO NOVO */
+
+
+        #container3D {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            pointer-events: none;
+        }
+        @media screen and (max-width: 1023px) {
+            #banner .title {
+                font-size: 5em;
+            }
+            #intro .content-fit {
+                flex-direction: column;
+            }
+        }
+        @media screen and (max-width: 767px) {
+            #banner .title {
+                font-size: 3em;
+            }
+            #intro .content-fit {
+                flex-direction: column;
+            }
+            .section .number {
+                font-size: 5em;
+            }
+            .section .content-fit .title {
+                font-size: 2em;
+            }
+            #description .content-fit {
+                padding-right: 0;
+            }
+            #contact table {
+                font-size: 1em;
+            }
+            #contact .sign-button {
+                font-size: 2em;
+            }
+            #container3D {
+                position: sticky;
+            }
+        }
+    </style>
+</body>
+</html>

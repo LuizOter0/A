@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll-Driven Animations Scroll</title>
+</head>
+<body>
+    
+
+<ul class="titles transparent">
+    <li><a href="redação.html">One</a></li>
+    <li><a href="redação.html">Two</a></li>
+    <li><a href="redação.html">Three</a></li>
+    <li><a href="redação.html">Four</a></li>
+    <li><a href="redação.html">Five</a></li>
+    <li><a href="redação.html">Six</a></li>
+    <li><a href="redação.html">Seven</a></li>
+    <li><a href="redação.html">Eight</a></li>
+    <li><a href="redação.html">Nine</a></li>
+    <li><a href="redação.html">Ten</a></li>
+    <li><a href="redação.html">Eleven</a></li>
+    <li><a href="redação.html">Twelve</a></li>
+    <li><a href="redação.html">Thirteen</a></li>
+    <li><a href="redação.html">Fourteen</a></li>
+</ul>
+<ul class="titles fill">
+    <li><a href="redacao1.html">One</a></li>
+    <li><a href="redação2.html">Two</a></li>
+    <li><a href="redação3.html">Three</a></li>
+    <li><a href="redação4.html">Four</a></li>
+    <li><a href="redação5.html">Five</a></li>
+    <li><a href="redação6.html">Six</a></li>
+    <li><a href="redação7.html">Seven</a></li>
+    <li><a href="redação8.html">Eight</a></li>
+    <li><a href="redação9.html">Nine</a></li>
+    <li><a href="redação10.html">Ten</a></li>
+    <li><a href="redação11.html">Eleven</a></li>
+    <li><a href="redação12.html">Twelve</a></li>
+    <li><a href="redação13.html">Thirteen</a></li>
+    <li><a href="redação14.html">Fourteen</a></li>
+</ul>
+<div class="panels">
+    <div class="panel"><img src="https://picsum.photos/seed/1/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/2/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/3/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/4/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/5/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/6/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/7/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/8/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/9/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/10/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/11/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/12/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/13/1600/900" alt="photo" height="900" width="1600"></div>
+    <div class="panel"><img src="https://picsum.photos/seed/14/1600/900" alt="photo" height="900" width="1600"></div>
+</div>
+
+<div class="warning">
+    <p>⚠️ Seu navegador pode não suportar Animações Controladas por Rolagem (CSS Scroll-Linked Animations) com <code>view-timeline</code>. Por favor, use um navegador moderno (como o Chrome) para ver o demo.</p>
+</div>
+
+<style>
+    
+@property --scroll-position {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+@property --scroll-position-delayed {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@keyframes adjust-pos {
+    to {
+        --scroll-position: 1;
+        --scroll-position-delayed: 1;
+    }
+}
+
+:root {
+    animation: adjust-pos 0.01s linear both; 
+    animation-timeline: scroll(root);
+}
+
+body {
+    /* AJUSTE: Aumentei a duração da transição para um "smear" mais suave */
+    transition: --scroll-position-delayed 0.2s linear; 
+    --scroll-velocity: calc(
+        var(--scroll-position) - var(--scroll-position-delayed)
+    );
+}
+
+html {
+    background: #666;
+}
+
+html {
+    scroll-snap-type: y mandatory;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+    line-height: 1;
+    display: block;
+}
+
+ul a {
+    text-decoration: none; 
+    color: inherit; 
+    display: block; 
+}
+
+ul li {
+    display: block;
+    line-height: 1;
+}
+
+.panel {
+    scroll-snap-align: center;
+    height: 100dvh;
+    border: 2px solid #333;
+    background: rgb(0 0 0 / 0.15);
+    z-index: -1;
+}
+
+.panel img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(30%);
+}
+
+@keyframes slide-up {
+    to {
+        translate: 0 var(--end-pos);
+    }
+}
+
+.titles {
+    position: fixed;
+    z-index: 2;
+    top: 50dvh;
+    font-size: 25dvh;
+    left: 0;
+    right: 0;
+    text-align: center;
+    animation: slide-up 0.01s linear; 
+    animation-timeline: scroll(root block);
+    font-family: impact;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    --num-children: 14; 
+    --num-children-1: calc(var(--num-children) - 1);
+    --size-per-child: calc(100% / var(--num-children));
+    --half-size-per-child: calc(var(--size-per-child) / 2);
+    --start-pos: calc(var(--half-size-per-child) * -1);
+    --end-pos: calc(-100% + var(--half-size-per-child));
+    translate: 0 var(--start-pos);
+}
+
+.titles.transparent {
+    color: transparent;
+    /* AJUSTE: Contorno um pouco mais visível */
+    -webkit-text-stroke: 2px rgb(255 255 255 / 0.8);
+    text-stroke: 2px rgb(255 255 255 / 0.8);
+}
+
+.titles.fill {
+    /* AJUSTE: Cor rosa mais vibrante (Deep Pink) */
+    color: deepskyblue; /* Mudei para um azul ciano/turquesa para melhor contraste. Você pode mudar para 'deeppink' se quiser o rosa. */
+
+    --y-per-child: calc(1 / var(--num-children));
+    --cur-child: calc((var(--scroll-position) / var(--y-per-child)) + 1);
+    --cur-child-1: calc(var(--cur-child) - 1);
+    --clip-min: 0;
+    --clip-max: calc(100% - var(--size-per-child));
+    --clip-per-child: calc(var(--clip-max) / var(--num-children));
+    
+    /* AJUSTE NO CÁLCULO: Variáveis de ajuste simplificadas e melhor centralizadas */
+    --fix: calc(var(--clip-per-child) / 10); /* Ajuste menor */
+    --extra: 0.5%; /* Margem de segurança menor */
+
+    clip-path: inset(
+        /* Canto Superior: Garante que o corte comece exatamente onde deveria */
+        calc((var(--cur-child-1) * var(--clip-per-child)) - var(--extra)) 0%
+             
+        /* Canto Inferior: Usa o --cur-child-1 + 1 para focar no elemento atual */
+             calc(
+                 (var(--num-children) * var(--clip-per-child)) - 
+                 ((var(--cur-child) * var(--clip-per-child)) - var(--fix)) -
+                 var(--extra)
+             )
+             0%
+    );
+}
+
+
+.titles li {
+    will-change: transform;
+    transform-origin: 50% 50%;
+    /* AJUSTE: Skew um pouco mais agressivo para o efeito "smear" */
+    transform: skewY(calc(var(--scroll-velocity) * -100deg));
+}
+
+
+.warning {
+    border: 1px solid black;
+    z-index: 9999;
+    color: black;
+    background: rgba(255 255 225 / 0.9);
+    z-index: 10; 
+
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    right: 1em;
+    text-align: center;
+}
+
+.warning p {
+    margin: 1em 0;
+}
+
+@supports (view-timeline: --works) {
+    .warning {
+        display: none;
+    }
+}
+
+</style>
+</body>
+</html>
